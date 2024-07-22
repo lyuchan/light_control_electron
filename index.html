@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+
+    <title>燈光控制</title>
+
+</head>
+<style>
+    body {
+        background-color: #111111;
+        display: flex;
+        justify-content: center;
+    }
+
+    .c {
+        display: flex;
+        justify-content: center;
+    }
+
+    h1 {
+        color: #fff;
+        text-align: center;
+    }
+
+    .btn {
+        background-color: #1A3140;
+        color: #FFFFFF;
+        font-size: 20px;
+        padding: 20px 80px;
+        border-radius: 10px;
+        cursor: pointer;
+        border: 0;
+    }
+</style>
+
+<body>
+
+
+    <div>
+        <h1>燈光控制軟體</h1>
+        <button class="btn" onclick="clickhide();">隱藏視窗</button>
+        <div>
+            <p></p>
+            <div class="c">
+                <p style="color: white;">白光</p>
+                <input id="whiteinput" style="width: 80%;offset: 10px;" type="range" min="0" max="255" step="1"
+                    value="0" onchange="updatew()">
+            </div>
+
+        </div>
+        <div>
+            <div class="c">
+                <p style="color: white;">黃光</p>
+                <input id="yellowinput" style="width: 80%;offset: 10px;" type="range" min="0" max="255" step="1"
+                    value="0" onchange="updatey()">
+            </div>
+
+        </div>
+    </div>
+    <script>
+        /*function updatew() {
+            window.api.send("toMain", JSON.stringify({ get: "updatew", val: document.getElementById("whiteinput").value }));
+        }
+        function updatey() {
+            window.api.send("toMain", JSON.stringify({ get: "updatey", val: document.getElementById("yellowinput").value }));
+        }*/
+        document.getElementById("whiteinput").addEventListener('input', (val) => {
+            window.api.send("toMain", JSON.stringify({ get: "updatew", val: document.getElementById("whiteinput").value }));
+        });
+        document.getElementById("yellowinput").addEventListener('input', (val) => {
+            window.api.send("toMain", JSON.stringify({ get: "updatey", val: document.getElementById("yellowinput").value }));
+        });
+        function clickhide() {
+            window.api.send("toMain", JSON.stringify({ get: "clickhide" }));
+        }
+        window.api.receive("fromMain", (event) => {
+            const res = JSON.parse(event);
+
+        });
+    </script>
+</body>
+
+</html>
